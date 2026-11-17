@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Passport Size Photo Maker</title>
+<meta name="description" content="Make passport size photos for free. Remove the background, pick a color, and print many copies on one sheet.">
+<link rel="stylesheet" href="style.css">
+<style>#cv{width:min(100%,280px)}</style>
+</head>
+<body>
+<main>
+  <p class="hint"><a href="index.html">All tools</a></p>
+  <h1>Passport Size Photo Maker</h1>
+  <p class="sub">Your photo stays on your device. Check the size and background color your form asks for.</p>
+  <label for="f">Choose a photo</label>
+  <input id="f" type="file" accept="image/*">
+  <p id="msg" role="status"></p>
+  <div id="ctl" hidden>
+    <label for="sz">Photo size</label>
+    <select id="sz">
+      <option value="35x45">35 x 45 mm</option>
+      <option value="40x50">40 x 50 mm</option>
+      <option value="51x51">2 x 2 inch (51 x 51 mm)</option>
+      <option value="20x25">Stamp size 20 x 25 mm</option>
+    </select>
+    <label>Background</label>
+    <div class="sw" id="sw"></div>
+    <label for="zm">Zoom</label><input id="zm" type="range" min="100" max="250" value="100">
+    <label for="vy">Move up or down</label><input id="vy" type="range" min="0" max="100" value="15">
+    <label for="hx">Move left or right</label><input id="hx" type="range" min="0" max="100" value="50">
+    <div class="prev"><canvas id="cv"></canvas></div>
+    <button class="main" id="one" type="button">Download photo</button>
+    <label for="pg">Print sheet</label>
+    <select id="pg"><option value="a4">A4 paper</option><option value="4x6">4 x 6 inch photo paper</option></select>
+    <button class="main" id="sheet" type="button">Download print sheet</button>
+    <p class="hint">Print the sheet at 100% size (no “fit to page”) so the photos keep the right size.</p>
+  </div>
+</main>
+<script src="seg.js"></script>
+<script>
+const $=s=>document.querySelector(s),cv=$('#cv'),msg=$('#msg');
+const SZ={'35x45':[35,45],'40x50':[40,50],'51x51':[50.8,50.8],'20x25':[20,25]};
+let person=null,color='#ffffff';
+function single(){
+  const [mw,mh]=SZ[$('#sz').value],w=Math.round(mw/25.4*300),h=Math.round(mh/25.4*300);
+  const c=document.createElement('canvas');c.width=w;c.height=h;
+  const x=c.getContext('2d');x.fillStyle=color;x.fillRect(0,0,w,h);
+  const s=Math.max(w/person.width,h/person.height)*$('#zm').value/100,dw=person.width*s,dh=person.height*s;
+  x.imageSmoothingQuality='high';
+  x.drawImage(person,-($('#hx').value/100)*(dw-w),-($('#vy').value/100)*(dh-h),dw,dh);
+  return c;
+}
+function draw(){
+  if(!person)return;
+  const c=single();cv.width=c.width;cv.height=c.height;cv.getContext('2d').drawImage(c,0,0);
+}
+swatches($('#sw'),[['White','#ffffff'],['Light blue','#8ec1f0'],['Light gray','#e3e6ea']],c=>{color=c;draw()});
+['sz','zm','vy','hx'].forEach(id=>$('#'+id).oninput=draw);
+$('#f').onchange=async e=>{
+  const f=e.target.files[0];if(!f)return;
+  $('#ctl').hidden=true;msg.textContent='Working... the first time can take a minute.';
+  try{
+    person=await cutout(await loadImage(f));draw();
+    $('#ctl').hidden=false;msg.textContent='Done. Adjust zoom and position until the face is centered.';
+  }catch(err){console.error(err);msg.textContent='Something went wrong. Check your internet and try a JPG or PNG photo.'}
+};
+$('#one').onclick=()=>save(single(),'passport-photo.jpg','image/jpeg');
+$('#sheet').onclick=()=>{
+  const p=single(),[W,H]=$('#pg').value==='a4'?[2480,3508]:[1200,1800],g=24,m=60;
+  const cols=Math.floor((W-2*m+g)/(p.width+g)),rows=Math.floor((H-2*m+g)/(p.height+g));
+  if(cols<1||rows<1){msg.textContent='This size does not fit on that paper.';return}
+  const s=document.createElement('canvas');s.width=W;s.height=H;
+  const x=s.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,W,H);
+  const ox=(W-(cols*p.width+(cols-1)*g))/2,oy=(H-(rows*p.height+(rows-1)*g))/2;
+  x.strokeStyle='#bbb';x.lineWidth=2;
+  for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){
+    const px=ox+i*(p.width+g),py=oy+j*(p.height+g);
+    x.drawImage(p,px,py);x.strokeRect(px,py,p.width,p.height);
+  }
+  save(s,'passport-sheet.jpg','image/jpeg');
+  msg.textContent='Sheet saved with '+cols*rows+' photos.';
+};
+</script>
+</body>
+</html>
