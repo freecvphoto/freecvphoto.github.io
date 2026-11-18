@@ -1,0 +1,27 @@
+:root{--bg:#e9eef3;--ink:#1b2a41;--mut:#5b6b7f;--ac:#1f6f8b;--line:#cfd9e3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:640px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:1.6rem;margin:4px 0}
+.sub{color:var(--mut);margin:0 0 14px}
+.hint{color:var(--mut);font-size:.9rem;margin:6px 0 0}
+label{display:block;font-weight:600;margin:16px 0 6px}
+input[type=file],select{width:100%;font:inherit;padding:10px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink)}
+input[type=range]{width:100%}
+button{font:inherit;cursor:pointer;border-radius:6px;padding:11px 14px;border:1px solid var(--ac);background:#fff;color:var(--ac)}
+button.main{background:var(--ac);color:#fff;font-weight:700;width:100%;padding:13px;margin-top:12px}
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.sw{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sw button{width:44px;height:44px;border-radius:50%;padding:0;border:2px solid var(--line)}
+.sw button[aria-pressed=true]{border-color:var(--ink);box-shadow:0 0 0 3px #fff inset}
+.sw input[type=color]{width:44px;height:44px;padding:0;border:0;background:none}
+.prev{margin-top:16px;text-align:center}
+.prev canvas{max-width:100%;height:auto;border:1px solid var(--line);background-color:#fff}
+.chk{background-image:linear-gradient(45deg,#ccc 25%,transparent 25%,transparent 75%,#ccc 75%),linear-gradient(45deg,#ccc 25%,transparent 25%,transparent 75%,#ccc 75%);background-size:16px 16px;background-position:0 0,8px 8px}
+#msg{min-height:1.5em;color:var(--mut);margin:10px 0 0}
+main h2{font-size:1.15rem;margin:22px 0 4px}
+main p{margin:0 0 10px}
+footer{max-width:640px;margin:0 auto;padding:16px;text-align:center;color:var(--mut);font-size:.9rem}
+textarea,input[type=email]{width:100%;font:inherit;padding:10px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink)}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button[aria-pressed=true]{background:var(--ac);color:#fff}

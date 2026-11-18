@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact - Free CV Photo</title>
+<meta name="description" content="Contact Free CV Photo.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <p class="hint"><a href="index.html">Home</a></p>
+  <h1>Contact</h1>
+  <p>Do you have feedback, a problem to report or an idea for a new tool? Write it below. You do not need to sign in.</p>
+  <label for="ct">Your feedback or idea</label>
+  <textarea id="ct" rows="5"></textarea>
+  <label for="ce">Email (optional, only if you want a reply)</label>
+  <input id="ce" type="email" autocomplete="email">
+  <button class="main" id="cs" type="button">Send</button>
+  <p id="msg" role="status"></p>
+  <p class="hint">Sent through Google Forms. Please do not share passwords or personal documents.</p>
+</main>
+<footer><a href="about.html">About</a> · <a href="privacy.html">Privacy Policy</a> · <a href="contact.html">Contact</a><br>© 2026 Free CV Photo</footer>
+<script src="feedback.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+$("cs").onclick=()=>{
+  const t=$("ct").value.trim(),m=$("msg"),b=$("cs");
+  if(!t){m.textContent="Please write your feedback first.";return}
+  b.disabled=true;
+  sendFeedback(t,$("ce").value.trim())
+    .then(()=>{m.textContent="Thank you! Your feedback was sent.";$("ct").value="";b.disabled=false})
+    .catch(()=>{m.textContent="Sorry, could not send. Please try again later.";b.disabled=false});
+};
+</script>
+</body>
+</html>
