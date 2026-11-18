@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free CV Photo - CV Maker, Background Remover, Passport Size Photo</title>
+<meta name="description" content="Free online tools: make a CV with photo, remove photo background, and create passport size photos.">
+<style>
+:root{--bg:#e9eef3;--ink:#1b2a41;--mut:#5b6b7f;--ac:#1f6f8b;--line:#cfd9e3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:720px;margin:0 auto;padding:40px 16px 60px}
+h1{font-size:2rem;line-height:1.2;margin:0 0 8px}
+.sub{color:var(--mut);margin:0 0 24px}
+input{width:100%;font:inherit;font-size:1.1rem;padding:16px;border:2px solid var(--ink);border-radius:10px;background:#fff;color:var(--ink)}
+input:focus,a.card:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+#list{display:grid;gap:12px;margin-top:20px}
+.card{display:block;background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px;text-decoration:none;color:var(--ink)}
+a.card:hover{border-color:var(--ac)}
+.card h2{font-size:1.15rem;margin:0 0 2px}
+.card p{margin:0;color:var(--mut)}
+.soon{opacity:.65}
+.tag{font-size:.85rem;color:var(--ac);font-weight:600}
+#none{color:var(--mut);margin-top:20px}
+footer{max-width:720px;margin:0 auto;padding:16px;text-align:center;color:var(--mut);font-size:.9rem}
+</style>
+</head>
+<body>
+<main>
+  <h1>Free CV Photo</h1>
+  <p class="sub">Free CV maker, photo background remover and passport size photo. No sign up. Your files never leave your device.</p>
+  <input id="q" type="search" placeholder="Search: CV, passport size, background remove" aria-label="Search tools" autocomplete="off">
+  <div id="list"></div>
+  <p id="none" hidden>No tool found. Try “CV”, “passport” or “background”.</p>
+</main>
+<footer class="noprint"><a href="about.html">About</a> · <a href="privacy.html">Privacy Policy</a> · <a href="contact.html">Contact</a><br>© 2026 Free CV Photo</footer>
+<script>
+const T=[
+ {n:'CV Maker',d:'Make a CV or biodata with photo and personal details. Save as PDF.',u:'cv.html',k:'cv resume biodata bio data job curriculum vitae সিভি চাকরি বায়োডাটা'},
+ {n:'Photo Background Remover',d:'Remove the background from any photo.',u:'bg.html',k:'background remove remover bg eraser transparent white photo ছবি ব্যাকগ্রাউন্ড'},
+ {n:'Passport Size Photo',d:'Make passport size photos, ready to print.',u:'passport.html',k:'passport size photo stamp visa id print ছবি পাসপোর্ট ছোট'}
+];
+const L=document.getElementById('list'),N=document.getElementById('none');
+function card(t){
+  const a=document.createElement(t.u?'a':'div');a.className='card'+(t.u?'':' soon');
+  if(t.u)a.href=t.u;
+  const h=document.createElement('h2');h.textContent=t.n;
+  const p=document.createElement('p');p.textContent=t.d;
+  a.append(h,p);
+  if(!t.u){const g=document.createElement('span');g.className='tag';g.textContent='Coming soon';a.append(g)}
+  return a;
+}
+function show(){
+  const w=document.getElementById('q').value.toLowerCase().split(/\s+/).filter(Boolean);
+  let r=T.map(t=>{const hay=(t.n+' '+t.k).toLowerCase();return{t,s:w.filter(x=>hay.includes(x)).length}});
+  if(w.length)r=r.filter(x=>x.s>0).sort((a,b)=>b.s-a.s);
+  L.innerHTML='';r.forEach(x=>L.append(card(x.t)));
+  N.hidden=r.length>0;
+}
+document.getElementById('q').oninput=show;
+show();
+</script>
+</body>
+</html>
