@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free CV Maker</title>
+<meta name="description" content="Make a CV online for free. Add your photo, personal details, experience and education, then save it as a PDF. Your details stay on your device.">
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap");
+:root{--bg:#F6F6F2;--surface:#fff;--ink:#17233B;--mut:#55607A;--ac:#17233B;--gold:#A47A2C;--line:#D8D3C4;--on-ac:#fff}
+:root[data-theme="dark"]{--bg:#0F1626;--surface:#16203A;--ink:#EDE9DF;--mut:#A9B2C7;--ac:#D4A84F;--gold:#D4A84F;--line:#2D3A5C;--on-ac:#0F1626}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1626;--surface:#16203A;--ink:#EDE9DF;--mut:#A9B2C7;--ac:#D4A84F;--gold:#D4A84F;--line:#2D3A5C;--on-ac:#0F1626}}
+a{color:var(--ink);text-decoration-color:var(--gold);text-underline-offset:3px}
+a:hover{color:var(--gold)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Hind Siliguri",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:20px 16px 48px;display:grid;gap:24px;grid-template-columns:1fr}
+@media(min-width:900px){.wrap{grid-template-columns:420px 1fr;align-items:start}.form{position:sticky;top:16px}}
+h1.t{font-family:"Libre Baskerville",Georgia,serif;font-size:1.6rem;line-height:1.35;margin:0 0 6px;padding-bottom:8px;border-bottom:1px solid var(--gold)}
+.sub{color:var(--mut);margin:0 0 16px}
+fieldset{border:0;border-top:1px solid var(--gold);margin:0 0 16px;padding:10px 0 0}
+legend{font-weight:700;padding-right:8px}
+input,textarea,select{width:100%;font:inherit;padding:10px;margin:0 0 8px;border:1px solid var(--line);border-radius:2px;background:var(--surface);color:var(--ink)}
+textarea{min-height:70px;resize:vertical}
+input:focus,textarea:focus,select:focus,button:focus-visible{outline:3px solid var(--gold);outline-offset:1px}
+.grp{background:var(--surface);border:1px solid var(--line);border-radius:2px;padding:10px;margin-bottom:10px}
+button{font:inherit;cursor:pointer;border-radius:2px;padding:9px 14px;border:1px solid var(--ac);background:var(--surface);color:var(--ac)}
+button.main{background:var(--ac);color:var(--on-ac);font-weight:700;width:100%;padding:13px;margin-top:6px}
+button.del{border-color:var(--line);color:var(--mut);padding:5px 10px;font-size:.85rem}
+.hint{font-size:.85rem;color:var(--mut);margin:6px 0 0}
+#cv{--ac:#1f6f8b;--mut:#5b6b7f;--line:#cfd9e3;--ink:#1b2a41;color:#1b2a41;background:#fff;padding:40px 44px;min-height:600px;box-shadow:0 2px 14px rgba(27,42,65,.15);font-family:Georgia,"Times New Roman",serif;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
+#cv h1{font-size:2rem;margin:0;line-height:1.15}
+#cv .role{margin:2px 0 0;font-size:1.1rem;color:var(--ac)}
+#cv .contact{margin:6px 0 0;color:var(--mut);font-size:.9rem}
+#cv h2{font-size:1rem;margin:20px 0 8px;padding-bottom:3px;border-bottom:1.5px solid var(--ac);color:var(--ac)}
+#cv p{margin:0 0 4px;white-space:pre-line}
+.row{display:flex;justify-content:space-between;gap:12px}
+.item{margin-bottom:10px}
+.sub2{font-style:italic;color:var(--mut)}
+#cv .head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+#cv img.ph{width:110px;height:138px;object-fit:cover;border:1px solid var(--line);flex:none}
+#cv table{border-collapse:collapse;width:100%}
+#cv td{padding:2px 0;vertical-align:top}
+#cv td:first-child{width:150px;color:var(--mut)}
+label.up{display:block;font-size:.9rem;color:var(--mut);margin-bottom:8px}
+@page{size:A4;margin:12mm}
+@media print{body{background:#fff}.wrap{display:block;padding:0}.noprint{display:none}#cv{box-shadow:none;padding:0;min-height:0}}
+footer{max-width:720px;margin:0 auto;padding:16px;text-align:center;color:var(--mut);font-size:.9rem}
+footer a{color:var(--mut)}
+</style>
+<link rel="canonical" href="https://freecvphoto.github.io/cv.html">
+</head>
+<body>
+<div class="wrap">
+  <div class="form noprint">
+    <p class="hint"><a href="index.html">All tools</a></p>
+    <h1 class="t">Free CV Maker</h1>
+    <p class="sub">Fill in your details. Your CV updates live. Nothing is uploaded; it stays on your device.</p>
+    <fieldset><legend>About you</legend>
+      <label class="up">Your photo (JPG or PNG)<input type="file" accept="image/jpeg,image/png,image/webp,image/*" id="photo"></label>
+      <p class="hint" id="pmsg"></p>
+      <input data-k="name" placeholder="Full name" autocomplete="name">
+      <input data-k="title" placeholder="Job title (e.g. Graphic Designer)">
+      <input data-k="email" placeholder="Email" type="email" autocomplete="email">
+      <input data-k="phone" placeholder="Phone" type="tel" autocomplete="tel">
+      <input data-k="addr" placeholder="Present address">
+      <textarea data-k="sum" placeholder="Short summary about yourself (2-3 lines)"></textarea>
+    </fieldset>
+    <fieldset><legend>Personal details</legend>
+      <input data-k="father" placeholder="Father’s name">
+      <input data-k="mother" placeholder="Mother’s name">
+      <label class="up">Date of birth<input type="date" data-k="dob" max="2100-12-31"></label>
+      <select data-k="gender"><option value="">Gender</option><option>Male</option><option>Female</option><option>Other</option></select>
+      <select data-k="marital"><option value="">Marital status</option><option>Single</option><option>Married</option><option>Divorced</option><option>Widowed</option></select>
+      <input data-k="nationality" placeholder="Nationality" list="nat"><datalist id="nat"><option value="Bangladeshi"><option value="Indian"><option value="Pakistani"><option value="Nepali"><option value="Sri Lankan"></datalist>
+      <select data-k="religion"><option value="">Religion</option><option>Islam</option><option>Hinduism</option><option>Buddhism</option><option>Christianity</option><option>Other</option></select>
+      <select data-k="blood"><option value="">Blood group</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select>
+      <select data-k="height"><option value="">Height</option><option>4 ft 0 in</option><option>4 ft 1 in</option><option>4 ft 2 in</option><option>4 ft 3 in</option><option>4 ft 4 in</option><option>4 ft 5 in</option><option>4 ft 6 in</option><option>4 ft 7 in</option><option>4 ft 8 in</option><option>4 ft 9 in</option><option>4 ft 10 in</option><option>4 ft 11 in</option><option>5 ft 0 in</option><option>5 ft 1 in</option><option>5 ft 2 in</option><option>5 ft 3 in</option><option>5 ft 4 in</option><option>5 ft 5 in</option><option>5 ft 6 in</option><option>5 ft 7 in</option><option>5 ft 8 in</option><option>5 ft 9 in</option><option>5 ft 10 in</option><option>5 ft 11 in</option><option>6 ft 0 in</option><option>6 ft 1 in</option><option>6 ft 2 in</option><option>6 ft 3 in</option><option>6 ft 4 in</option><option>6 ft 5 in</option><option>6 ft 6 in</option><option>6 ft 7 in</option><option>6 ft 8 in</option><option>6 ft 9 in</option><option>6 ft 10 in</option><option>6 ft 11 in</option><option>7 ft 0 in</option></select>
+      <input data-k="paddr" placeholder="Permanent address">
+    </fieldset>
+    <fieldset><legend>Experience</legend><div id="exp"></div><button type="button" data-add="exp">Add experience</button></fieldset>
+    <fieldset><legend>Education</legend><div id="edu"></div><button type="button" data-add="edu">Add education</button></fieldset>
+    <fieldset><legend>Skills</legend>
+      <input data-k="skills" placeholder="Separate with commas: Excel, Canva, English">
+    </fieldset>
+    <fieldset><legend>More</legend>
+      <input data-k="lang" placeholder="Languages (e.g. Bangla - native, English - good)">
+      <textarea data-k="train" placeholder="Training / certificates (one per line)"></textarea>
+      <input data-k="hobby" placeholder="Hobbies">
+      <textarea data-k="ref" placeholder="References (name, position, phone)"></textarea>
+    </fieldset>
+    <button class="main" type="button" id="pdf">Download PDF</button>
+    <button type="button" id="clr" style="margin-top:10px">Clear all my data</button>
+    <p class="hint">Your CV is saved on this device only. On a shared phone or computer, tap the button above when you finish.</p>
+    <p class="hint">In the window that opens, choose “Save as PDF” as the printer.</p>
+  </div>
+  <div id="cv" class="notranslate" translate="no" aria-live="polite"></div>
+</div>
+<footer class="noprint"><a href="about.html">About</a> · <a href="privacy.html">Privacy Policy</a> · <a href="contact.html">Contact</a><br>© 2026 Free CV Photo</footer>
+<script src="feedback.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+const S={name:'',title:'',email:'',phone:'',addr:'',sum:'',skills:'',photo:'',exp:[{}],edu:[{}]};
+const MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function fmtDob(v){const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v||'');return m?(+m[3])+' '+MN[+m[2]-1]+' '+m[1]:(v||'')}
+const PD=[['father','Father’s name'],['mother','Mother’s name'],['dob','Date of birth'],['gender','Gender'],['marital','Marital status'],['nationality','Nationality'],['religion','Religion'],['blood','Blood group'],['height','Height'],['paddr','Permanent address']];
+try{const sv=JSON.parse(localStorage.getItem('cv')||'null');if(sv)Object.assign(S,sv)}catch(e){}
+const F={
+  exp:[['role','Job title'],['company','Company'],['period','2022 - 2024'],['desc','What you did (one point per line)',1]],
+  edu:[['degree','Degree / course'],['school','School / university'],['period','2018 - 2022'],['result','Result / CGPA (e.g. 4.50)']]
+};
+function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x)e.textContent=x;return e}
+function group(key){
+  const box=$('#'+key);box.innerHTML='';
+  S[key].forEach((it,i)=>{
+    const g=el('div','grp');
+    F[key].forEach(([k,ph,ta])=>{
+      const f=el(ta?'textarea':'input');f.placeholder=ph;f.value=it[k]||'';
+      f.oninput=()=>{it[k]=f.value;render()};g.append(f);
+    });
+    const d=el('button','del','Remove');d.type='button';
+    d.onclick=()=>{S[key].splice(i,1);group(key);render()};
+    g.append(d);box.append(g);
+  });
+}
+function item(a,b,per,desc){
+  const d=el('div','item'),r=el('div','row');
+  r.append(el('strong','',a||''),el('span','',per||''));d.append(r);
+  if(b)d.append(el('p','sub2',b));
+  if(desc)d.append(el('p','',desc));
+  return d;
+}
+function render(){
+  const p=$('#cv');p.innerHTML='';
+  try{localStorage.setItem('cv',JSON.stringify(S))}catch(e){}
+  function sec(t,k){if(!k.length)return;p.append(el('h2','',t));k.forEach(n=>p.append(n))}
+  const h=el('div','head'),l=el('div');
+  l.append(el('h1','',S.name||'Your Name'));
+  if(S.title)l.append(el('p','role',S.title));
+  const c=[S.email,S.phone,S.addr].filter(Boolean).join('  |  ');
+  if(c)l.append(el('p','contact',c));
+  h.append(l);
+  if(S.photo){const im=el('img','ph');im.src=S.photo;im.alt='Your photo';h.append(im)}
+  p.append(h);
+  sec('Summary',S.sum?[el('p','',S.sum)]:[]);
+  const rows=PD.filter(([k])=>S[k]);
+  if(rows.length){const t=el('table');rows.forEach(([k,lb])=>{const r=el('tr');r.append(el('td','',lb),el('td','',k==='dob'?fmtDob(S[k]):S[k]));t.append(r)});sec('Personal details',[t])}
+  sec('Experience',S.exp.filter(x=>x.role||x.company).map(x=>item(x.role,x.company,x.period,x.desc)));
+  sec('Education',S.edu.filter(x=>x.degree||x.school).map(x=>item(x.degree,x.school,x.period,x.result?'Result: '+x.result:'')));
+  const sk=S.skills.split(',').map(s=>s.trim()).filter(Boolean);
+  sec('Skills',sk.length?[el('p','',sk.join(', '))]:[]);
+  [['Languages','lang'],['Training','train'],['Hobbies','hobby'],['References','ref']].forEach(([t,k])=>sec(t,S[k]?[el('p','',S[k])]:[]));
+}
+document.querySelectorAll('[data-k]').forEach(f=>{const v=S[f.dataset.k]||'';if(f.tagName==='SELECT'&&v&&![...f.options].some(o=>o.value===v)){const o=document.createElement('option');o.value=o.textContent=v;f.append(o)}f.value=v;f.oninput=f.onchange=()=>{S[f.dataset.k]=f.value;render()}});
+document.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{S[b.dataset.add].push({});group(b.dataset.add)});
+$('#pdf').onclick=()=>{document.title=(S.name||'CV')+' - CV';window.print();setTimeout(askFeedback,1200)};
+$('#photo').onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{const i=new Image();
+    i.onload=()=>{const w=300,h=375,c=document.createElement('canvas');c.width=w;c.height=h;
+      const x=c.getContext('2d'),s=Math.max(w/i.width,h/i.height),dw=i.width*s,dh=i.height*s;
+      x.drawImage(i,(w-dw)/2,(h-dh)/2,dw,dh);S.photo=c.toDataURL('image/jpeg',.9);render();
+      $('#pmsg').textContent='Photo added.'};
+    i.onerror=()=>{$('#pmsg').textContent='This photo format is not supported. Please use a JPG or PNG photo.'};
+    i.src=r.result};
+  r.onerror=()=>{$('#pmsg').textContent='Could not read the file. Try another photo.'};
+  $('#pmsg').textContent='Loading photo...';
+  r.readAsDataURL(f);
+};
+$('#clr').onclick=()=>{if(confirm('Delete everything you typed on this device?')){try{localStorage.removeItem('cv')}catch(e){}location.reload()}};
+group('exp');group('edu');render();
+</script>
+<script src="lang.js"></script>
+</body>
+</html>
